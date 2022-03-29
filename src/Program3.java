@@ -46,7 +46,7 @@ class Program3 {
                 items.add(new Item(j - i, Integer.parseInt(item[0]), Integer.parseInt(item[1])));
             }
 
-            List<Item> chosenItems = new ArrayList();
+            List<Item> chosenItems = new ArrayList<>();
             long totalProfit = -1;
             long start = -1;
             long end = -1;
@@ -79,7 +79,7 @@ class Program3 {
                 System.out.print(item.index() + " ");
             }
             System.out.println();
-            
+
             i += numItems; // skip current test case lines
         }
     }
