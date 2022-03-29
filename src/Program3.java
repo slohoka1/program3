@@ -5,7 +5,7 @@ import java.util.*;
 class Program3 {
 
     public static void main(String[] args) {
-        Program3 obj = new Program3();
+        Program3 solution = new Program3();
 
         // setup output
         PrintStream newOut;
@@ -19,7 +19,7 @@ class Program3 {
         // read data
         // parse test cases
         // call algorithms
-        obj.parseAndRunTests(obj.readLines(args[0]), Integer.parseInt(args[2]));
+        solution.parseAndRunTests(solution.readLines(args[0]), Integer.parseInt(args[2]));
     }
 
     private List<String> readLines(String file) {
@@ -43,31 +43,42 @@ class Program3 {
             List<Item> items = new ArrayList<>();
             for (int j = i + 1; j <= i + numItems; j++) {
                 String[] item = lines.get(j).trim().split(" ");
-                items.add(new Item(Integer.parseInt(item[0]), Integer.parseInt(item[1])));
+                items.add(new Item(j - i, Integer.parseInt(item[0]), Integer.parseInt(item[1])));
             }
 
+            List<Item> chosenItems = new ArrayList();
+            long totalProfit = -1;
+            long start = -1;
+            long end = -1;
             switch (algo) {
                 case 0: {
-                    long start = System.currentTimeMillis();
-                    long totalProfit = Algorithms.greedy1(items, capacity);
-                    long end = System.currentTimeMillis();
-                    System.out.println(numItems + " " + totalProfit + " " + (end - start));
+                    start = System.currentTimeMillis();
+                    totalProfit = Algorithms.greedy1(items, capacity, chosenItems);
+                    end = System.currentTimeMillis();
                 }
                 break;
                 case 1: {
-                    long start = System.currentTimeMillis();
-                    long totalProfit = Algorithms.greedy2(items, capacity);
-                    long end = System.currentTimeMillis();
-                    System.out.println(numItems + " " + totalProfit + " " + (end - start));
+                    start = System.currentTimeMillis();
+                    totalProfit = Algorithms.greedy2(items, capacity, chosenItems);
+                    end = System.currentTimeMillis();
                 }
                 break;
                 case 2: {
-
+                    start = System.currentTimeMillis();
+                    totalProfit = Algorithms.backtracking(items, capacity, chosenItems);
+                    end = System.currentTimeMillis();
                 }
                 break;
                 default:
                     throw new IllegalArgumentException("Invalid Algorithm number: " + algo);
             }
+
+            System.out.print(numItems + " " + totalProfit + " " + (end - start) + " ");
+            chosenItems.sort(Comparator.comparingInt(item -> item.index()));
+            for (Item item : chosenItems) {
+                System.out.print(item.index() + " ");
+            }
+            System.out.println();
             
             i += numItems; // skip current test case lines
         }
