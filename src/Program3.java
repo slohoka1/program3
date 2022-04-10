@@ -47,38 +47,47 @@ class Program3 {
             }
 
             List<Item> chosenItems = new ArrayList<>();
+            String includedItems = "";
             long totalProfit = -1;
             long start = -1;
             long end = -1;
+            Algorithms.setContext(items, capacity, chosenItems);
             switch (algo) {
                 case 0: {
                     start = System.currentTimeMillis();
-                    totalProfit = Algorithms.greedy1(items, capacity, chosenItems);
+                    totalProfit = Algorithms.greedy1();
                     end = System.currentTimeMillis();
+                    chosenItems.sort(Comparator.comparingInt(item -> item.index()));
+                    for (Item item : chosenItems) {
+                        includedItems += item.index() + " ";
+                    }
                 }
                 break;
                 case 1: {
                     start = System.currentTimeMillis();
-                    totalProfit = Algorithms.greedy2(items, capacity, chosenItems);
+                    totalProfit = Algorithms.greedy2();
                     end = System.currentTimeMillis();
+                    chosenItems.sort(Comparator.comparingInt(item -> item.index()));
+                    for (Item item : chosenItems) {
+                        includedItems += item.index() + " ";
+                    }
                 }
                 break;
                 case 2: {
                     start = System.currentTimeMillis();
-                    totalProfit = Algorithms.backtracking(items, capacity, chosenItems);
+                    Algorithms.resetBacktrackingContext();
+                    Algorithms.backtracking(0, 0, 0, "");
                     end = System.currentTimeMillis();
+
+                    totalProfit = Algorithms.getMaxProfit();
+                    includedItems = Algorithms.getIncludedItems();
                 }
                 break;
                 default:
                     throw new IllegalArgumentException("Invalid Algorithm number: " + algo);
             }
 
-            System.out.print(numItems + " " + totalProfit + " " + (end - start) + " ");
-            chosenItems.sort(Comparator.comparingInt(item -> item.index()));
-            for (Item item : chosenItems) {
-                System.out.print(item.index() + " ");
-            }
-            System.out.println();
+            System.out.println(numItems + " " + totalProfit + " " + (end - start) + " " + includedItems);
 
             i += numItems; // skip current test case lines
         }

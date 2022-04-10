@@ -1,1 +1,1 @@
-java -cp bin Program3
+java -cp bin Program3 tests/small.txt tests/small.out 2
